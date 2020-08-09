@@ -1,6 +1,9 @@
 *{
   margin: 0;
+  box-sizing: border-box;
+  padding: 0;
 }
 .app{
   background-color: #111;
+  overflow-x: hidden;
 }
