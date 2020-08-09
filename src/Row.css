@@ -7,13 +7,10 @@
 .row__posters{
     display: flex;
     overflow-y: hidden;
-    overflow-x: scroll;
     padding: 20px;
 }
 
-.row__posters::-webkit-scrollbar{
-    display: none;
-}
+
 
 .row__poster{
     object-fit: contain;
@@ -29,4 +26,14 @@
 
 .row__poster:hover{
     transform: scale(1.08);
+}
+.swiper-container>ul{
+    display: flex;
+    list-style: none;
+}
+.swiper-container li{
+    width: 150px !important;
+}
+.swiper-container li:not(:last-child){
+    margin-right: 15px;
 }

@@ -3,8 +3,13 @@ import axios from "./axios";
 import "./Row.css";
 import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
-
+// import SwiperCore, { Navigation, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import "swiper/";
 const base_url = "https://image.tmdb.org/t/p/original";
+
+// SwiperCore.use([Navigation, Pagination]);
 
 const onReady = (event) => {
   // access to player in all event handlers via event.target
@@ -37,7 +42,6 @@ const Row = ({ title, fetchUrl, isLargeRow }) => {
     } else {
       movieTrailer(movie?.name || "")
         .then((url) => {
-
           const urlParams = new URLSearchParams(new URL(url).search);
           setTrailerUrl(urlParams.get("v"));
         })
@@ -49,19 +53,29 @@ const Row = ({ title, fetchUrl, isLargeRow }) => {
     <div className="row">
       <h2>{title}</h2>
       <div className="row__posters">
-        {movies.map((movie) => (
-          <img
-            onClick={() => handleCLick(movie)}
-            key={movie.id}
-            className={`row__poster ${isLargeRow && "row__posterLarge"}`}
-            src={`${base_url}${
-              isLargeRow ? movie.poster_path : movie.backdrop_path
-            }`}
-            alt={movie.name}
-          />
-        ))}
+        <Swiper
+          tag="section"
+          wrapperTag="ul"
+          direction="horizontal"
+          loop={true}
+          slidesPerView={Math.floor(window.screen.width / 150)}
+        >
+          {movies.map((movie) => (
+            <SwiperSlide key={`${movie.id}`} tag="li">
+              <img
+                onClick={() => handleCLick(movie)}
+                className={`row__poster ${
+                  isLargeRow && "row__posterLarge"
+                } swiper-slide`}
+                src={`${base_url}${
+                  isLargeRow ? movie.poster_path : movie.backdrop_path
+                }`}
+                alt={movie.name}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
-
       {trailerUrl && (
         <YouTube videoId={trailerUrl} opts={opts} onReady={onReady} />
       )}
